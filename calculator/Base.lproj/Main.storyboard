@@ -16,8 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="main-stack" userLabel="Main Stack">
-                                <rect key="frame" x="20" y="380" width="353" height="380"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="main-stack" userLabel="Main Stack">
+                                <rect key="frame" x="20" y="390" width="353" height="370"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="display-label">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="80"/>
@@ -29,7 +29,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="row-ac" userLabel="Row 2">
-                                        <rect key="frame" x="0.0" y="92" width="353" height="48"/>
+                                        <rect key="frame" x="0.0" y="90" width="353" height="48"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-ac">
                                                 <rect key="frame" x="0.0" y="0.0" width="80.666666666666671" height="48"/>
@@ -65,7 +65,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="row-789" userLabel="Row 3">
-                                        <rect key="frame" x="0.0" y="152" width="353" height="48"/>
+                                        <rect key="frame" x="0.0" y="148" width="353" height="48"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-7">
                                                 <rect key="frame" x="0.0" y="0.0" width="80.666666666666671" height="48"/>
@@ -101,7 +101,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="row-456" userLabel="Row 4">
-                                        <rect key="frame" x="0.0" y="212" width="353" height="48"/>
+                                        <rect key="frame" x="0.0" y="206" width="353" height="48"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-4">
                                                 <rect key="frame" x="0.0" y="0.0" width="80.666666666666671" height="48"/>
@@ -137,7 +137,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="row-123" userLabel="Row 5">
-                                        <rect key="frame" x="0.0" y="272" width="353" height="48"/>
+                                        <rect key="frame" x="0.0" y="264" width="353" height="48"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-1">
                                                 <rect key="frame" x="0.0" y="0.0" width="80.666666666666671" height="48"/>
@@ -173,7 +173,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="row-0" userLabel="Row 6">
-                                        <rect key="frame" x="0.0" y="332" width="353" height="48"/>
+                                        <rect key="frame" x="0.0" y="322" width="353" height="48"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-0">
                                                 <rect key="frame" x="0.0" y="0.0" width="171.66666666666666" height="48"/>

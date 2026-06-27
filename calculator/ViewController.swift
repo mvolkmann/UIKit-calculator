@@ -14,16 +14,16 @@ class ViewController: UIViewController {
     private let operatorButtonColor = rgb(143, 194, 243)
     private let numberButtonColor = rgb(203, 221, 247)
 
-    private var mainStackView: UIStackView? {
+    private var mainStack: UIStackView? {
         displayLabel.superview as? UIStackView
     }
 
-    private var rowStackViews: [UIStackView] {
-        mainStackView?.arrangedSubviews.compactMap { $0 as? UIStackView } ?? []
+    private var rowStacks: [UIStackView] {
+        mainStack?.arrangedSubviews.compactMap { $0 as? UIStackView } ?? []
     }
 
-    private var calculatorButtons: [UIButton] {
-        rowStackViews.flatMap { row in
+    private var buttons: [UIButton] {
+        rowStacks.flatMap { row in
             row.arrangedSubviews.compactMap { $0 as? UIButton }
         }
     }
@@ -163,12 +163,12 @@ class ViewController: UIViewController {
     }
 
     private func configureLayout() {
-        guard let mainStackView else { return }
+        guard let mainStack else { return }
 
-        mainStackCenterConstraint = mainStackView.centerXAnchor.constraint(
+        mainStackCenterConstraint = mainStack.centerXAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.centerXAnchor
         )
-        mainStackWidthConstraint = mainStackView.widthAnchor
+        mainStackWidthConstraint = mainStack.widthAnchor
             .constraint(equalToConstant: 0)
     }
 
@@ -178,7 +178,7 @@ class ViewController: UIViewController {
         displayLabel.textColor = operatorButtonColor
         displayLabel.font = .systemFont(ofSize: 72, weight: .regular)
 
-        for button in calculatorButtons {
+        for button in buttons {
             button.tintColor = .white
             button.setTitleColor(.white, for: .normal)
             button.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
@@ -188,7 +188,7 @@ class ViewController: UIViewController {
     }
 
     private func updateLayoutForCurrentSize() {
-        guard let mainStackView else { return }
+        guard mainStack != nil else { return }
 
         let isLandscape = view.bounds.width > view.bounds.height
         let safeWidth = view.safeAreaLayoutGuide.layoutFrame.width
@@ -199,7 +199,6 @@ class ViewController: UIViewController {
         )
         let rowHeight = isLandscape ? 48 : (stackWidth - 30) / 4
 
-        mainStackView.spacing = isLandscape ? 10 : 12
         displayLabel.font = .systemFont(
             ofSize: isLandscape ? 62 : 72,
             weight: .regular
@@ -207,15 +206,11 @@ class ViewController: UIViewController {
         setDisplayHeight(isLandscape ? 110 : 150)
         setRowsHeight(rowHeight)
 
+        setMainStackHorizontalEdgeConstraints(active: isLandscape)
+        mainStackCenterConstraint?.isActive = isLandscape
+        mainStackWidthConstraint?.isActive = isLandscape
         if isLandscape {
-            setMainStackHorizontalEdgeConstraints(active: false)
             mainStackWidthConstraint?.constant = stackWidth
-            mainStackCenterConstraint?.isActive = true
-            mainStackWidthConstraint?.isActive = true
-        } else {
-            mainStackCenterConstraint?.isActive = false
-            mainStackWidthConstraint?.isActive = false
-            setMainStackHorizontalEdgeConstraints(active: true)
         }
     }
 
@@ -226,7 +221,7 @@ class ViewController: UIViewController {
     }
 
     private func setRowsHeight(_ height: CGFloat) {
-        for row in rowStackViews {
+        for row in rowStacks {
             row.constraints
                 .first { $0.firstAttribute == .height }
                 .map { $0.constant = height }
@@ -243,7 +238,7 @@ class ViewController: UIViewController {
     }
 
     private func updateButtonCornerRadii() {
-        for button in calculatorButtons {
+        for button in buttons {
             button.layer.cornerRadius = button.bounds.height / 2
         }
     }
