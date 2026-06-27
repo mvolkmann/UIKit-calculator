@@ -1,14 +1,7 @@
-//
-//  ViewController.swift
-//  calculator
-//
-//  Created by Mark Volkmann on 6/27/26.
-//
-
 import UIKit
 
 class ViewController: UIViewController {
-    @IBOutlet private weak var displayLabel: UILabel!
+    @IBOutlet private var displayLabel: UILabel!
 
     private let operatorButtonColor = UIColor(
         red: 143 / 255,
@@ -26,14 +19,17 @@ class ViewController: UIViewController {
     private var mainStackView: UIStackView? {
         displayLabel.superview as? UIStackView
     }
+
     private var rowStackViews: [UIStackView] {
         mainStackView?.arrangedSubviews.compactMap { $0 as? UIStackView } ?? []
     }
+
     private var calculatorButtons: [UIButton] {
         rowStackViews.flatMap { row in
             row.arrangedSubviews.compactMap { $0 as? UIButton }
         }
     }
+
     private var mainStackWidthConstraint: NSLayoutConstraint?
     private var mainStackCenterConstraint: NSLayoutConstraint?
 
@@ -68,7 +64,7 @@ class ViewController: UIViewController {
         updateDisplay()
     }
 
-    @IBAction private func clearButtonTapped(_ sender: UIButton) {
+    @IBAction private func clearButtonTapped(_: UIButton) {
         currentValue = "0"
         storedValue = nil
         pendingOperation = nil
@@ -76,7 +72,7 @@ class ViewController: UIViewController {
         updateDisplay()
     }
 
-    @IBAction private func signButtonTapped(_ sender: UIButton) {
+    @IBAction private func signButtonTapped(_: UIButton) {
         guard currentValue != "0" else { return }
 
         if currentValue.hasPrefix("-") {
@@ -88,13 +84,13 @@ class ViewController: UIViewController {
         updateDisplay()
     }
 
-    @IBAction private func percentButtonTapped(_ sender: UIButton) {
+    @IBAction private func percentButtonTapped(_: UIButton) {
         currentValue = String(currentIntValue / 100)
         shouldStartNewNumber = true
         updateDisplay()
     }
 
-    @IBAction private func decimalButtonTapped(_ sender: UIButton) {
+    @IBAction private func decimalButtonTapped(_: UIButton) {
         // Floating point values are intentionally unsupported.
     }
 
@@ -102,7 +98,11 @@ class ViewController: UIViewController {
         guard let operation = sender.currentTitle else { return }
 
         if let pendingOperation, let storedValue, !shouldStartNewNumber {
-            let result = calculate(storedValue, currentIntValue, pendingOperation)
+            let result = calculate(
+                storedValue,
+                currentIntValue,
+                pendingOperation
+            )
             setResult(result)
         } else {
             storedValue = currentIntValue
@@ -112,7 +112,7 @@ class ViewController: UIViewController {
         shouldStartNewNumber = true
     }
 
-    @IBAction private func equalsButtonTapped(_ sender: UIButton) {
+    @IBAction private func equalsButtonTapped(_: UIButton) {
         guard let pendingOperation, let storedValue else { return }
 
         let result = calculate(storedValue, currentIntValue, pendingOperation)
@@ -126,7 +126,11 @@ class ViewController: UIViewController {
         Int(currentValue) ?? 0
     }
 
-    private func calculate(_ left: Int, _ right: Int, _ operation: String) -> Int? {
+    private func calculate(
+        _ left: Int,
+        _ right: Int,
+        _ operation: String
+    ) -> Int? {
         switch operation {
         case "+":
             return left + right
@@ -167,7 +171,8 @@ class ViewController: UIViewController {
         mainStackCenterConstraint = mainStackView.centerXAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.centerXAnchor
         )
-        mainStackWidthConstraint = mainStackView.widthAnchor.constraint(equalToConstant: 0)
+        mainStackWidthConstraint = mainStackView.widthAnchor
+            .constraint(equalToConstant: 0)
     }
 
     private func configureAppearance() {
@@ -176,7 +181,7 @@ class ViewController: UIViewController {
         displayLabel.textColor = operatorButtonColor
         displayLabel.font = .systemFont(ofSize: 72, weight: .regular)
 
-        calculatorButtons.forEach { button in
+        for button in calculatorButtons {
             button.tintColor = .white
             button.setTitleColor(.white, for: .normal)
             button.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
@@ -191,11 +196,17 @@ class ViewController: UIViewController {
         let isLandscape = view.bounds.width > view.bounds.height
         let safeWidth = view.safeAreaLayoutGuide.layoutFrame.width
         let horizontalMargin: CGFloat = 20
-        let stackWidth = min(safeWidth - (horizontalMargin * 2), isLandscape ? 722 : safeWidth)
+        let stackWidth = min(
+            safeWidth - (horizontalMargin * 2),
+            isLandscape ? 722 : safeWidth
+        )
         let rowHeight = isLandscape ? 48 : (stackWidth - 30) / 4
 
         mainStackView.spacing = isLandscape ? 10 : 12
-        displayLabel.font = .systemFont(ofSize: isLandscape ? 62 : 72, weight: .regular)
+        displayLabel.font = .systemFont(
+            ofSize: isLandscape ? 62 : 72,
+            weight: .regular
+        )
         setDisplayHeight(isLandscape ? 110 : 150)
         setRowsHeight(rowHeight)
 
@@ -218,7 +229,7 @@ class ViewController: UIViewController {
     }
 
     private func setRowsHeight(_ height: CGFloat) {
-        rowStackViews.forEach { row in
+        for row in rowStackViews {
             row.constraints
                 .first { $0.firstAttribute == .height }
                 .map { $0.constant = height }
@@ -227,12 +238,15 @@ class ViewController: UIViewController {
 
     private func setMainStackHorizontalEdgeConstraints(active: Bool) {
         view.constraints
-            .filter { $0.identifier == "main-leading" || $0.identifier == "main-trailing" }
+            .filter {
+                $0.identifier == "main-leading" || $0
+                    .identifier == "main-trailing"
+            }
             .forEach { $0.isActive = active }
     }
 
     private func updateButtonCornerRadii() {
-        calculatorButtons.forEach { button in
+        for button in calculatorButtons {
             button.layer.cornerRadius = button.bounds.height / 2
         }
     }
