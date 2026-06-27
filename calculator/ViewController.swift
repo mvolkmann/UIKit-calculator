@@ -3,18 +3,16 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet private var displayLabel: UILabel!
 
-    private let operatorButtonColor = UIColor(
-        red: 143 / 255,
-        green: 194 / 255,
-        blue: 243 / 255,
-        alpha: 1
-    )
-    private let numberButtonColor = UIColor(
-        red: 203 / 255,
-        green: 221 / 255,
-        blue: 247 / 255,
-        alpha: 1
-    )
+    private static func rgb(
+        _ red: CGFloat,
+        _ green: CGFloat,
+        _ blue: CGFloat
+    ) -> UIColor {
+        UIColor(red: red / 255, green: green / 255, blue: blue / 255, alpha: 1)
+    }
+
+    private let operatorButtonColor = rgb(143, 194, 243)
+    private let numberButtonColor = rgb(203, 221, 247)
 
     private var mainStackView: UIStackView? {
         displayLabel.superview as? UIStackView
