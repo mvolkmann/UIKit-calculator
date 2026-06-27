@@ -13,6 +13,8 @@ class ViewController: UIViewController {
 
     private let operatorButtonColor = rgb(143, 194, 243)
     private let numberButtonColor = rgb(203, 221, 247)
+    private let unsupportedButtonColor = UIColor.lightGray
+    private let unsupportedButtonLabels: Set<String> = ["%", "/", "."]
 
     private var mainStack: UIStackView? {
         displayLabel.superview as? UIStackView
@@ -82,13 +84,11 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func percentButtonTapped(_: UIButton) {
-        currentValue = String(currentIntValue / 100)
-        shouldStartNewNumber = true
-        updateDisplay()
+        // This button is intentionally unsupported.
     }
 
     @IBAction private func decimalButtonTapped(_: UIButton) {
-        // Floating point values are intentionally unsupported.
+        // This button is intentionally unsupported.
     }
 
     @IBAction private func operationButtonTapped(_ sender: UIButton) {
@@ -136,8 +136,8 @@ class ViewController: UIViewController {
         case "x":
             return left * right
         case "/":
-            guard right != 0 else { return nil }
-            return left / right
+            // This operation is intentionally unsupported.
+            return nil
         default:
             return right
         }
@@ -179,10 +179,14 @@ class ViewController: UIViewController {
         displayLabel.font = .systemFont(ofSize: 72, weight: .regular)
 
         for button in buttons {
+            let isUnsupported = isUnsupportedButton(button)
+
             button.tintColor = .white
             button.setTitleColor(.white, for: .normal)
             button.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
             button.backgroundColor = backgroundColor(for: button)
+            button.isEnabled = !isUnsupported
+            button.alpha = isUnsupported ? 0.45 : 1
             button.clipsToBounds = true
         }
     }
@@ -244,11 +248,20 @@ class ViewController: UIViewController {
     }
 
     private func backgroundColor(for button: UIButton) -> UIColor {
+        if isUnsupportedButton(button) {
+            return unsupportedButtonColor
+        }
+
         switch button.currentTitle {
         case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
             return numberButtonColor
         default:
             return operatorButtonColor
         }
+    }
+
+    private func isUnsupportedButton(_ button: UIButton) -> Bool {
+        guard let title = button.currentTitle else { return false }
+        return unsupportedButtonLabels.contains(title)
     }
 }
