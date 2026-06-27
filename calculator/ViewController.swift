@@ -78,7 +78,6 @@ class ViewController: UIViewController {
         } else {
             currentValue = "-" + currentValue
         }
-
         updateDisplay()
     }
 
