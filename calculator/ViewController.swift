@@ -128,6 +128,7 @@ class ViewController: UIViewController {
     }
 
     // Updates each row's height constraint.
+    // This is called by updateLayoutForCurrentSize.
     private func setRowsHeight(_ height: CGFloat) {
         for row in rowStacks {
             row.constraints
@@ -143,8 +144,8 @@ class ViewController: UIViewController {
         }
     }
 
-    // Adjusts fonts, dimensions, and constraints for the current screen
-    // orientation and size.
+    // Adjusts fonts, dimensions, and constraints
+    // for the current layout and size.
     private func updateLayoutForCurrentSize() {
         guard mainStack != nil else { return }
 
