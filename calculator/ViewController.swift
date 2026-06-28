@@ -40,8 +40,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureLayout()
-        configureButtonActions()
-        configureAppearance()
+        configureButtons()
         displayLabel.text = model.currentValue
     }
 
@@ -65,27 +64,17 @@ class ViewController: UIViewController {
         processButton(sender)
     }
 
-    private func configureAppearance() {
-        view.backgroundColor = .white
-
-        displayLabel.textColor = operatorButtonColor
-        displayLabel.font = .systemFont(ofSize: 72, weight: .regular)
-
+    // Doing this in the code instead of in the storyboard
+    // removes the need to manually configure each button and
+    // will make it easier to support new buttons in the future.
+    private func configureButtons() {
+        let buttonFont = UIFont.systemFont(ofSize: 28, weight: .bold)
         for button in buttons {
-            button.tintColor = .white
             button.setTitleColor(.white, for: .normal)
-            button.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
+            button.titleLabel?.font = buttonFont
             button.backgroundColor = backgroundColor(for: button)
             button.isEnabled = !isUnsupportedButton(button)
             button.clipsToBounds = true
-        }
-    }
-
-    // Doing this in the code instead of in the storyboard
-    // removes the need to manually configure each button
-    // and will make it easier to support new buttons in the future.
-    private func configureButtonActions() {
-        for button in buttons {
             button.addTarget(
                 self,
                 action: #selector(buttonTapped(_:)),
