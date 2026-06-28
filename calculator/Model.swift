@@ -82,11 +82,21 @@ struct Model {
     }
 
     private mutating func processOperation(_ operation: String) {
+        // If there is a pending operation, a left operand,
+        // and the user has typed a number for the right operand,
+        // compute a new result.
+        // For example, if the user presses 1 + 2 + 4,
+        // when the second + is pressed,
+        // the displayed value changes from 2 to 3,
+        // representing the result of 1 + 2.
         if let storedOperation = self.operation, let leftOperand,
            !shouldStartNewNumber {
             let result = calculate(leftOperand, intValue, storedOperation)
             setResult(result)
         } else {
+            // Otherwise, save the entered value as the left operand
+            // so it can be used with the operation
+            // after the next number is entered and the = key is pressed.
             leftOperand = intValue
         }
 
