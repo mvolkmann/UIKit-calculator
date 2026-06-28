@@ -29,7 +29,7 @@ struct Model {
         case "x":
             return left * right
         case "/":
-            // This operation is intentionally unsupported.
+            // This operation is not yet supported.
             return nil
         default:
             return nil
