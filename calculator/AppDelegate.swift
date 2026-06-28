@@ -1,6 +1,8 @@
 import UIKit
 
-// It's not clear to me why I need to define this class,
-// but the app doesn't build without it.
+// This defines the application's entry point and
+// gives UIKit an object for app-level lifecycle callbacks.
+// The @main attribute tells Swift to
+// launch the app using this UIApplicationDelegate.
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {}
