@@ -3,6 +3,7 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet private var displayLabel: UILabel!
 
+    // Creates a UIColor from 0-255 RGB component values.
     private static func rgb(
         _ red: CGFloat,
         _ green: CGFloat,
@@ -38,6 +39,8 @@ class ViewController: UIViewController {
         mainStack?.arrangedSubviews.compactMap { $0 as? UIStackView } ?? []
     }
 
+    // Performs initial layout and button setup,
+    // then shows the model's current value.
     override func viewDidLoad() {
         super.viewDidLoad()
         configureLayout()
@@ -45,12 +48,14 @@ class ViewController: UIViewController {
         displayLabel.text = model.currentValue
     }
 
+    // Updates layout-dependent sizing after the view has laid out its subviews.
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateLayoutForCurrentSize()
         updateButtonCornerRadii()
     }
 
+    // Returns the background color for a button based on its title.
     private func backgroundColor(for button: UIButton) -> UIColor {
         guard let title = button.currentTitle else {
             return unsupportedButtonColor
@@ -61,9 +66,7 @@ class ViewController: UIViewController {
             isNumber ? numberButtonColor : operatorButtonColor
     }
 
-    // Doing this in the code instead of in the storyboard
-    // removes the need to manually configure each button and
-    // will make it easier to support new buttons in the future.
+    // Applies styling and touch handling to every calculator button.
     private func configureButtons() {
         let buttonFont = UIFont.systemFont(ofSize: 28, weight: .bold)
         for button in buttons {
@@ -71,7 +74,6 @@ class ViewController: UIViewController {
             button.titleLabel?.font = buttonFont
             button.backgroundColor = backgroundColor(for: button)
             button.isEnabled = !isUnsupportedButton(button)
-            button.clipsToBounds = true
             button.addTarget(
                 self,
                 action: #selector(processButton(_:)),
@@ -80,9 +82,9 @@ class ViewController: UIViewController {
         }
     }
 
+    // Creates reusable constraints that are activated for landscape layout.
     private func configureLayout() {
         guard let mainStack else { return }
-
         mainStackCenterConstraint = mainStack.centerXAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.centerXAnchor
         )
@@ -90,25 +92,29 @@ class ViewController: UIViewController {
             .constraint(equalToConstant: 0)
     }
 
+    // Returns whether a button represents an operation the calculator does not
+    // support.
     private func isUnsupportedButton(_ button: UIButton) -> Bool {
         guard let title = button.currentTitle else { return false }
         return unsupportedButtonLabels.contains(title)
     }
 
-    // This method is used in the configureButtons method.
-    // It must be exposed to Object-C in order to
-    // specify it as the action in a call to addTarget.
+    // Sends the tapped button title to the model and updates the display with
+    // the result.
     @objc private func processButton(_ button: UIButton) {
         guard let key = button.currentTitle else { return }
         displayLabel.text = model.processKey(key)
     }
 
+    // Updates the display label's height constraint.
     private func setDisplayHeight(_ height: CGFloat) {
         displayLabel.constraints
             .first { $0.firstAttribute == .height }
             .map { $0.constant = height }
     }
 
+    // Activates or deactivates the storyboard constraints that pin the main
+    // stack horizontally.
     private func setMainStackHorizontalEdgeConstraints(active: Bool) {
         view.constraints
             .filter {
@@ -118,6 +124,7 @@ class ViewController: UIViewController {
             .forEach { $0.isActive = active }
     }
 
+    // Updates each button row's height constraint.
     private func setRowsHeight(_ height: CGFloat) {
         for row in rowStacks {
             row.constraints
@@ -126,12 +133,15 @@ class ViewController: UIViewController {
         }
     }
 
+    // Applies the current rounded corner radius to every button.
     private func updateButtonCornerRadii() {
         for button in buttons {
             button.layer.cornerRadius = buttonCornerRadius
         }
     }
 
+    // Adjusts fonts, dimensions, and constraints for the current screen
+    // orientation and size.
     private func updateLayoutForCurrentSize() {
         guard mainStack != nil else { return }
 
