@@ -31,7 +31,7 @@ class ViewController: UIViewController {
 
     private func backgroundColor(for button: UIButton) -> UIColor {
         guard let title = button.currentTitle else {
-            return operatorButtonColor
+            return unsupportedButtonColor
         }
         if unsupportedButtonLabels.contains(title) {
             return unsupportedButtonColor
