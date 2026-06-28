@@ -83,6 +83,7 @@ class ViewController: UIViewController {
     }
 
     // Creates reusable constraints that are activated for landscape layout.
+    // This is done in the updateLayoutForCurrentSize method.
     private func configureLayout() {
         guard let mainStack else { return }
         mainStackCenterConstraint = mainStack.centerXAnchor.constraint(
@@ -92,29 +93,31 @@ class ViewController: UIViewController {
             .constraint(equalToConstant: 0)
     }
 
-    // Returns whether a button represents an operation the calculator does not
-    // support.
+    // Returns whether a button is supported.
     private func isUnsupportedButton(_ button: UIButton) -> Bool {
         guard let title = button.currentTitle else { return false }
         return unsupportedButtonLabels.contains(title)
     }
 
-    // Sends the tapped button title to the model and updates the display with
-    // the result.
+    // Sends the tapped button title to the model
+    // and updates the display with the result.
     @objc private func processButton(_ button: UIButton) {
         guard let key = button.currentTitle else { return }
         displayLabel.text = model.processKey(key)
     }
 
     // Updates the display label's height constraint.
+    // This is called when the layout changes between portrait and landscape.
     private func setDisplayHeight(_ height: CGFloat) {
         displayLabel.constraints
             .first { $0.firstAttribute == .height }
             .map { $0.constant = height }
     }
 
-    // Activates or deactivates the storyboard constraints that pin the main
-    // stack horizontally.
+    // Activates or deactivates the storyboard constraints
+    // that pin the main stack horizontally.
+    // This is called in updateLayoutForCurrentSize
+    // where the argument is true when in portrait mode.
     private func setMainStackHorizontalEdgeConstraints(active: Bool) {
         view.constraints
             .filter {
@@ -124,7 +127,7 @@ class ViewController: UIViewController {
             .forEach { $0.isActive = active }
     }
 
-    // Updates each button row's height constraint.
+    // Updates each row's height constraint.
     private func setRowsHeight(_ height: CGFloat) {
         for row in rowStacks {
             row.constraints
