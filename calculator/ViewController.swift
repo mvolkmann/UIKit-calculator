@@ -157,19 +157,22 @@ class ViewController: UIViewController {
             isLandscape ? 722 : safeWidth
         )
 
-        // For landscape mode, the rows has a fixed height.
-        // For portrait mode, the row height is calculated assuming
-        // four buttons per row so the buttons can be circles.
-        let rowHeight = isLandscape ? 42 : (stackWidth - 30) / 4
-
         displayLabel.font = .systemFont(
             ofSize: isLandscape ? 62 : 72,
             weight: .regular
         )
         setDisplayHeight(isLandscape ? 110 : 150)
+
+        // For landscape mode, the rows has a fixed height.
+        // For portrait mode, the row height is calculated assuming
+        // four buttons per row so the buttons can be circles.
+        let rowHeight = isLandscape ? 42 : (stackWidth - 30) / 4
         setRowsHeight(rowHeight)
+
         buttonCornerRadius = rowHeight / 2
 
+        // Activate/set constraints based on whether
+        // the layout is portrait or landscape.
         setMainStackHorizontalEdgeConstraints(active: !isLandscape)
         mainStackCenterConstraint?.isActive = isLandscape
         mainStackWidthConstraint?.isActive = isLandscape
