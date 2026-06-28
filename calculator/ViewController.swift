@@ -33,10 +33,10 @@ class ViewController: UIViewController {
         guard let title = button.currentTitle else {
             return unsupportedButtonColor
         }
-        if unsupportedButtonLabels.contains(title) {
-            return unsupportedButtonColor
-        }
-        return Int(title) == nil ? operatorButtonColor : numberButtonColor
+        let unsupported = unsupportedButtonLabels.contains(title)
+        let isNumber = Int(title) != nil
+        return unsupported ? unsupportedButtonColor :
+            isNumber ? numberButtonColor : operatorButtonColor
     }
 
     @IBAction private func clearButtonTapped(_ sender: UIButton) {
