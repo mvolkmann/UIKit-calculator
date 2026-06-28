@@ -54,9 +54,7 @@ struct Model {
 
     private mutating func processEquals() {
         guard let operation, let leftOperand else { return }
-
-        let result = calculate(leftOperand, intValue, operation)
-        setResult(result)
+        setResult(calculate(leftOperand, intValue, operation))
         self.operation = nil
         self.leftOperand = nil
         shouldStartNewNumber = true
