@@ -11,7 +11,8 @@ struct Model {
     private var operation: String?
     private var shouldStartNewNumber = true
 
-    private var currentIntValue: Int {
+    // A computed property.
+    private var intValue: Int {
         Int(displayValue) ?? 0
     }
 
@@ -54,7 +55,7 @@ struct Model {
     private mutating func processEquals() {
         guard let operation, let leftOperand else { return }
 
-        let result = calculate(leftOperand, currentIntValue, operation)
+        let result = calculate(leftOperand, intValue, operation)
         setResult(result)
         self.operation = nil
         self.leftOperand = nil
@@ -81,15 +82,12 @@ struct Model {
     }
 
     private mutating func processOperation(_ operation: String) {
-        if let storedOperation = self.operation, let leftOperand, !shouldStartNewNumber {
-            let result = calculate(
-                leftOperand,
-                currentIntValue,
-                storedOperation
-            )
+        if let storedOperation = self.operation, let leftOperand,
+           !shouldStartNewNumber {
+            let result = calculate(leftOperand, intValue, storedOperation)
             setResult(result)
         } else {
-            leftOperand = currentIntValue
+            leftOperand = intValue
         }
 
         self.operation = operation
