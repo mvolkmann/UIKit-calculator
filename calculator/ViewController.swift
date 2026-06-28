@@ -18,6 +18,7 @@ class ViewController: UIViewController {
 
     private var mainStackWidthConstraint: NSLayoutConstraint?
     private var mainStackCenterConstraint: NSLayoutConstraint?
+    private var buttonCornerRadius: CGFloat = 0
     private var model = Model()
 
     // A computed property.
@@ -127,7 +128,7 @@ class ViewController: UIViewController {
 
     private func updateButtonCornerRadii() {
         for button in buttons {
-            button.layer.cornerRadius = button.bounds.height / 2
+            button.layer.cornerRadius = buttonCornerRadius
         }
     }
 
@@ -149,8 +150,9 @@ class ViewController: UIViewController {
         )
         setDisplayHeight(isLandscape ? 110 : 150)
         setRowsHeight(rowHeight)
+        buttonCornerRadius = rowHeight / 2
 
-        setMainStackHorizontalEdgeConstraints(active: isLandscape)
+        setMainStackHorizontalEdgeConstraints(active: !isLandscape)
         mainStackCenterConstraint?.isActive = isLandscape
         mainStackWidthConstraint?.isActive = isLandscape
         if isLandscape {
