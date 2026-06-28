@@ -34,30 +34,18 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-ac">
                                                 <rect key="frame" x="0.0" y="0.0" width="80.666666666666671" height="48"/>
                                                 <state key="normal" title="AC"/>
-                                                <connections>
-                                                    <action selector="clearButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-ac"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-sign">
                                                 <rect key="frame" x="90.666666666666686" y="0.0" width="81" height="48"/>
                                                 <state key="normal" title="+/-"/>
-                                                <connections>
-                                                    <action selector="signButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-sign"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-percent">
                                                 <rect key="frame" x="181.66666666666666" y="0.0" width="80.666666666666657" height="48"/>
                                                 <state key="normal" title="%"/>
-                                                <connections>
-                                                    <action selector="percentButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-percent"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-divide">
                                                 <rect key="frame" x="272.33333333333331" y="0.0" width="80.666666666666686" height="48"/>
                                                 <state key="normal" title="/"/>
-                                                <connections>
-                                                    <action selector="operationButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-divide"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -70,30 +58,18 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-7">
                                                 <rect key="frame" x="0.0" y="0.0" width="80.666666666666671" height="48"/>
                                                 <state key="normal" title="7"/>
-                                                <connections>
-                                                    <action selector="digitButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-7"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-8">
                                                 <rect key="frame" x="90.666666666666686" y="0.0" width="81" height="48"/>
                                                 <state key="normal" title="8"/>
-                                                <connections>
-                                                    <action selector="digitButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-8"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-9">
                                                 <rect key="frame" x="181.66666666666666" y="0.0" width="80.666666666666657" height="48"/>
                                                 <state key="normal" title="9"/>
-                                                <connections>
-                                                    <action selector="digitButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-9"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-times">
                                                 <rect key="frame" x="272.33333333333331" y="0.0" width="80.666666666666686" height="48"/>
                                                 <state key="normal" title="x"/>
-                                                <connections>
-                                                    <action selector="operationButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-times"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -106,30 +82,18 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-4">
                                                 <rect key="frame" x="0.0" y="0.0" width="80.666666666666671" height="48"/>
                                                 <state key="normal" title="4"/>
-                                                <connections>
-                                                    <action selector="digitButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-4"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-5">
                                                 <rect key="frame" x="90.666666666666686" y="0.0" width="81" height="48"/>
                                                 <state key="normal" title="5"/>
-                                                <connections>
-                                                    <action selector="digitButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-5"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-6">
                                                 <rect key="frame" x="181.66666666666666" y="0.0" width="80.666666666666657" height="48"/>
                                                 <state key="normal" title="6"/>
-                                                <connections>
-                                                    <action selector="digitButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-6"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-minus">
                                                 <rect key="frame" x="272.33333333333331" y="0.0" width="80.666666666666686" height="48"/>
                                                 <state key="normal" title="-"/>
-                                                <connections>
-                                                    <action selector="operationButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-minus"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -142,30 +106,18 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-1">
                                                 <rect key="frame" x="0.0" y="0.0" width="80.666666666666671" height="48"/>
                                                 <state key="normal" title="1"/>
-                                                <connections>
-                                                    <action selector="digitButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-1"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-2">
                                                 <rect key="frame" x="90.666666666666686" y="0.0" width="81" height="48"/>
                                                 <state key="normal" title="2"/>
-                                                <connections>
-                                                    <action selector="digitButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-2"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-3">
                                                 <rect key="frame" x="181.66666666666666" y="0.0" width="80.666666666666657" height="48"/>
                                                 <state key="normal" title="3"/>
-                                                <connections>
-                                                    <action selector="digitButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-3"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-plus">
                                                 <rect key="frame" x="272.33333333333331" y="0.0" width="80.666666666666686" height="48"/>
                                                 <state key="normal" title="+"/>
-                                                <connections>
-                                                    <action selector="operationButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-plus"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -178,23 +130,14 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-0">
                                                 <rect key="frame" x="0.0" y="0.0" width="171.66666666666666" height="48"/>
                                                 <state key="normal" title="0"/>
-                                                <connections>
-                                                    <action selector="digitButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-0"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-decimal">
                                                 <rect key="frame" x="181.66666666666666" y="0.0" width="80.666666666666657" height="48"/>
                                                 <state key="normal" title="."/>
-                                                <connections>
-                                                    <action selector="decimalButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-decimal"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-equals">
                                                 <rect key="frame" x="272.33333333333331" y="0.0" width="80.666666666666686" height="48"/>
                                                 <state key="normal" title="="/>
-                                                <connections>
-                                                    <action selector="equalsButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="act-equals"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>

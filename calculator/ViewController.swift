@@ -39,7 +39,7 @@ class ViewController: UIViewController {
             isNumber ? numberButtonColor : operatorButtonColor
     }
 
-    @IBAction private func clearButtonTapped(_ sender: UIButton) {
+    @objc private func buttonTapped(_ sender: UIButton) {
         processButton(sender)
     }
 
@@ -62,6 +62,19 @@ class ViewController: UIViewController {
         }
     }
 
+    // Doing this in the code instead of in the storyboard
+    // removes the need to manually configure each button
+    // and will make it easier to support new buttons in the future.
+    private func configureButtonActions() {
+        for button in buttons {
+            button.addTarget(
+                self,
+                action: #selector(buttonTapped(_:)),
+                for: .touchUpInside
+            )
+        }
+    }
+
     private func configureLayout() {
         guard let mainStack else { return }
 
@@ -72,29 +85,9 @@ class ViewController: UIViewController {
             .constraint(equalToConstant: 0)
     }
 
-    @IBAction private func decimalButtonTapped(_ sender: UIButton) {
-        processButton(sender)
-    }
-
-    @IBAction private func digitButtonTapped(_ sender: UIButton) {
-        processButton(sender)
-    }
-
-    @IBAction private func equalsButtonTapped(_ sender: UIButton) {
-        processButton(sender)
-    }
-
     private func isUnsupportedButton(_ button: UIButton) -> Bool {
         guard let title = button.currentTitle else { return false }
         return unsupportedButtonLabels.contains(title)
-    }
-
-    @IBAction private func operationButtonTapped(_ sender: UIButton) {
-        processButton(sender)
-    }
-
-    @IBAction private func percentButtonTapped(_ sender: UIButton) {
-        processButton(sender)
     }
 
     private func processButton(_ button: UIButton) {
@@ -131,10 +124,6 @@ class ViewController: UIViewController {
                 .first { $0.firstAttribute == .height }
                 .map { $0.constant = height }
         }
-    }
-
-    @IBAction private func signButtonTapped(_ sender: UIButton) {
-        processButton(sender)
     }
 
     private func updateButtonCornerRadii() {
@@ -183,6 +172,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureLayout()
+        configureButtonActions()
         configureAppearance()
         updateDisplay()
     }
