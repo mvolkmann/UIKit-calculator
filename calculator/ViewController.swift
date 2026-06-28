@@ -3,6 +3,14 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet private var displayLabel: UILabel!
 
+    private static func rgb(
+        _ red: CGFloat,
+        _ green: CGFloat,
+        _ blue: CGFloat
+    ) -> UIColor {
+        UIColor(red: red / 255, green: green / 255, blue: blue / 255, alpha: 1)
+    }
+
     private let numberButtonColor = rgb(203, 221, 247)
     private let operatorButtonColor = rgb(143, 194, 243)
     private let unsupportedButtonColor = UIColor.lightGray
@@ -29,6 +37,20 @@ class ViewController: UIViewController {
         mainStack?.arrangedSubviews.compactMap { $0 as? UIStackView } ?? []
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureLayout()
+        configureButtonActions()
+        configureAppearance()
+        displayLabel.text = model.currentValue
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateLayoutForCurrentSize()
+        updateButtonCornerRadii()
+    }
+
     private func backgroundColor(for button: UIButton) -> UIColor {
         guard let title = button.currentTitle else {
             return unsupportedButtonColor
@@ -50,14 +72,11 @@ class ViewController: UIViewController {
         displayLabel.font = .systemFont(ofSize: 72, weight: .regular)
 
         for button in buttons {
-            let isUnsupported = isUnsupportedButton(button)
-
             button.tintColor = .white
             button.setTitleColor(.white, for: .normal)
             button.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
             button.backgroundColor = backgroundColor(for: button)
-            button.isEnabled = !isUnsupported
-            button.alpha = isUnsupported ? 0.45 : 1
+            button.isEnabled = !isUnsupportedButton(button)
             button.clipsToBounds = true
         }
     }
@@ -95,14 +114,6 @@ class ViewController: UIViewController {
         displayLabel.text = model.processKey(key)
     }
 
-    private static func rgb(
-        _ red: CGFloat,
-        _ green: CGFloat,
-        _ blue: CGFloat
-    ) -> UIColor {
-        UIColor(red: red / 255, green: green / 255, blue: blue / 255, alpha: 1)
-    }
-
     private func setDisplayHeight(_ height: CGFloat) {
         displayLabel.constraints
             .first { $0.firstAttribute == .height }
@@ -132,10 +143,6 @@ class ViewController: UIViewController {
         }
     }
 
-    private func updateDisplay() {
-        displayLabel.text = model.currentValue
-    }
-
     private func updateLayoutForCurrentSize() {
         guard mainStack != nil else { return }
 
@@ -161,19 +168,5 @@ class ViewController: UIViewController {
         if isLandscape {
             mainStackWidthConstraint?.constant = stackWidth
         }
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        updateLayoutForCurrentSize()
-        updateButtonCornerRadii()
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureLayout()
-        configureButtonActions()
-        configureAppearance()
-        updateDisplay()
     }
 }
