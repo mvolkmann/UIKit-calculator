@@ -32,7 +32,7 @@ struct Model {
             // This operation is intentionally unsupported.
             return nil
         default:
-            return right
+            return nil
         }
     }
 
