@@ -60,10 +60,6 @@ class ViewController: UIViewController {
             isNumber ? numberButtonColor : operatorButtonColor
     }
 
-    @objc private func buttonTapped(_ sender: UIButton) {
-        processButton(sender)
-    }
-
     // Doing this in the code instead of in the storyboard
     // removes the need to manually configure each button and
     // will make it easier to support new buttons in the future.
@@ -77,7 +73,7 @@ class ViewController: UIViewController {
             button.clipsToBounds = true
             button.addTarget(
                 self,
-                action: #selector(buttonTapped(_:)),
+                action: #selector(processButton(_:)),
                 for: .touchUpInside
             )
         }
@@ -98,7 +94,10 @@ class ViewController: UIViewController {
         return unsupportedButtonLabels.contains(title)
     }
 
-    private func processButton(_ button: UIButton) {
+    // This method is used in the configureButtons method.
+    // It must be exposed to Object-C in order to
+    // specify it as the action in a call to addTarget.
+    @objc private func processButton(_ button: UIButton) {
         guard let key = button.currentTitle else { return }
         displayLabel.text = model.processKey(key)
     }
