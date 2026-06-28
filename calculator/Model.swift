@@ -1,13 +1,18 @@
 import Foundation
 
 struct Model {
-    private(set) var currentValue = "0"
+    // Specifying "private(set)" here means that
+    // only this struct can set the value,
+    // but other code can read the value.
+    // ViewController does this in its viewDidLoad method.
+    private(set) var displayValue = "0"
+
+    private var leftOperand: Int?
     private var pendingOperation: String?
     private var shouldStartNewNumber = true
-    private var storedValue: Int?
 
     private var currentIntValue: Int {
-        Int(currentValue) ?? 0
+        Int(displayValue) ?? 0
     }
 
     private func calculate(
@@ -31,28 +36,28 @@ struct Model {
     }
 
     private mutating func clear() {
-        currentValue = "0"
-        storedValue = nil
+        displayValue = "0"
+        leftOperand = nil
         pendingOperation = nil
         shouldStartNewNumber = true
     }
 
     private mutating func processDigit(_ digit: String) {
-        if shouldStartNewNumber || currentValue == "0" {
-            currentValue = digit
+        if shouldStartNewNumber || displayValue == "0" {
+            displayValue = digit
             shouldStartNewNumber = false
         } else {
-            currentValue += digit
+            displayValue += digit
         }
     }
 
     private mutating func processEquals() {
-        guard let pendingOperation, let storedValue else { return }
+        guard let pendingOperation, let leftOperand else { return }
 
-        let result = calculate(storedValue, currentIntValue, pendingOperation)
+        let result = calculate(leftOperand, currentIntValue, pendingOperation)
         setResult(result)
         self.pendingOperation = nil
-        self.storedValue = nil
+        self.leftOperand = nil
         shouldStartNewNumber = true
     }
 
@@ -72,19 +77,19 @@ struct Model {
             break
         }
 
-        return currentValue
+        return displayValue
     }
 
     private mutating func processOperation(_ operation: String) {
-        if let pendingOperation, let storedValue, !shouldStartNewNumber {
+        if let pendingOperation, let leftOperand, !shouldStartNewNumber {
             let result = calculate(
-                storedValue,
+                leftOperand,
                 currentIntValue,
                 pendingOperation
             )
             setResult(result)
         } else {
-            storedValue = currentIntValue
+            leftOperand = currentIntValue
         }
 
         pendingOperation = operation
@@ -93,24 +98,24 @@ struct Model {
 
     private mutating func setResult(_ result: Int?) {
         guard let result else {
-            currentValue = "Error"
-            storedValue = nil
+            displayValue = "Error"
+            leftOperand = nil
             pendingOperation = nil
             shouldStartNewNumber = true
             return
         }
 
-        currentValue = String(result)
-        storedValue = result
+        displayValue = String(result)
+        leftOperand = result
     }
 
     private mutating func toggleSign() {
-        guard currentValue != "0" else { return }
+        guard displayValue != "0" else { return }
 
-        if currentValue.hasPrefix("-") {
-            currentValue.removeFirst()
+        if displayValue.hasPrefix("-") {
+            displayValue.removeFirst()
         } else {
-            currentValue = "-" + currentValue
+            displayValue = "-" + displayValue
         }
     }
 }

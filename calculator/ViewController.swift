@@ -45,7 +45,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         configureLayout()
         configureButtons()
-        displayLabel.text = model.currentValue
+        displayLabel.text = model.displayValue
     }
 
     // Updates layout-dependent sizing after the view has laid out its subviews.
