@@ -64,7 +64,7 @@ struct Model {
 
     mutating func processKey(_ key: String) -> String {
         switch key {
-        case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
+        case "0" ... "9":
             processDigit(key)
         case "AC":
             clear()
