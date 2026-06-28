@@ -36,13 +36,6 @@ struct Model {
         }
     }
 
-    private mutating func clear() {
-        displayValue = "0"
-        leftOperand = nil
-        operation = nil
-        shouldStartNewNumber = true
-    }
-
     private mutating func processDigit(_ digit: String) {
         if shouldStartNewNumber || displayValue == "0" {
             displayValue = digit
@@ -55,9 +48,7 @@ struct Model {
     private mutating func processEquals() {
         guard let operation, let leftOperand else { return }
         setResult(calculate(leftOperand, intValue, operation))
-        self.operation = nil
-        self.leftOperand = nil
-        shouldStartNewNumber = true
+        reset()
     }
 
     mutating func processKey(_ key: String) -> String {
@@ -65,7 +56,8 @@ struct Model {
         case "0" ... "9":
             processDigit(key)
         case "AC":
-            clear()
+            displayValue = "0"
+            reset()
         case "+/-":
             toggleSign()
         case "+", "-", "x", "/":
@@ -102,12 +94,16 @@ struct Model {
         shouldStartNewNumber = true
     }
 
+    private mutating func reset() {
+        leftOperand = nil
+        operation = nil
+        shouldStartNewNumber = true
+    }
+
     private mutating func setResult(_ result: Int?) {
         guard let result else {
             displayValue = "Error"
-            leftOperand = nil
-            operation = nil
-            shouldStartNewNumber = true
+            reset()
             return
         }
 
