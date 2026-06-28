@@ -156,7 +156,11 @@ class ViewController: UIViewController {
             safeWidth - (horizontalMargin * 2),
             isLandscape ? 722 : safeWidth
         )
-        let rowHeight = isLandscape ? 48 : (stackWidth - 30) / 4
+
+        // For landscape mode, the rows has a fixed height.
+        // For portrait mode, the row height is calculated assuming
+        // four buttons per row so the buttons can be circles.
+        let rowHeight = isLandscape ? 42 : (stackWidth - 30) / 4
 
         displayLabel.font = .systemFont(
             ofSize: isLandscape ? 62 : 72,
