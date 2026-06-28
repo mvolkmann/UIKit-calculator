@@ -8,7 +8,7 @@ struct Model {
     private(set) var displayValue = "0"
 
     private var leftOperand: Int?
-    private var pendingOperation: String?
+    private var operation: String?
     private var shouldStartNewNumber = true
 
     private var currentIntValue: Int {
@@ -38,7 +38,7 @@ struct Model {
     private mutating func clear() {
         displayValue = "0"
         leftOperand = nil
-        pendingOperation = nil
+        operation = nil
         shouldStartNewNumber = true
     }
 
@@ -52,11 +52,11 @@ struct Model {
     }
 
     private mutating func processEquals() {
-        guard let pendingOperation, let leftOperand else { return }
+        guard let operation, let leftOperand else { return }
 
-        let result = calculate(leftOperand, currentIntValue, pendingOperation)
+        let result = calculate(leftOperand, currentIntValue, operation)
         setResult(result)
-        self.pendingOperation = nil
+        self.operation = nil
         self.leftOperand = nil
         shouldStartNewNumber = true
     }
@@ -81,18 +81,18 @@ struct Model {
     }
 
     private mutating func processOperation(_ operation: String) {
-        if let pendingOperation, let leftOperand, !shouldStartNewNumber {
+        if let storedOperation = self.operation, let leftOperand, !shouldStartNewNumber {
             let result = calculate(
                 leftOperand,
                 currentIntValue,
-                pendingOperation
+                storedOperation
             )
             setResult(result)
         } else {
             leftOperand = currentIntValue
         }
 
-        pendingOperation = operation
+        self.operation = operation
         shouldStartNewNumber = true
     }
 
@@ -100,7 +100,7 @@ struct Model {
         guard let result else {
             displayValue = "Error"
             leftOperand = nil
-            pendingOperation = nil
+            operation = nil
             shouldStartNewNumber = true
             return
         }
