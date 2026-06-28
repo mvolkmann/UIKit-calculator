@@ -3,173 +3,47 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet private var displayLabel: UILabel!
 
-    private static func rgb(
-        _ red: CGFloat,
-        _ green: CGFloat,
-        _ blue: CGFloat
-    ) -> UIColor {
-        UIColor(red: red / 255, green: green / 255, blue: blue / 255, alpha: 1)
-    }
-
-    private let operatorButtonColor = rgb(143, 194, 243)
     private let numberButtonColor = rgb(203, 221, 247)
+    private let operatorButtonColor = rgb(143, 194, 243)
     private let unsupportedButtonColor = UIColor.lightGray
     private let unsupportedButtonLabels: Set<String> = ["%", "/", "."]
 
-    private var mainStack: UIStackView? {
-        displayLabel.superview as? UIStackView
-    }
+    private var mainStackWidthConstraint: NSLayoutConstraint?
+    private var mainStackCenterConstraint: NSLayoutConstraint?
+    private var model = Model()
 
-    private var rowStacks: [UIStackView] {
-        mainStack?.arrangedSubviews.compactMap { $0 as? UIStackView } ?? []
-    }
-
+    // A computed property.
     private var buttons: [UIButton] {
         rowStacks.flatMap { row in
             row.arrangedSubviews.compactMap { $0 as? UIButton }
         }
     }
 
-    private var mainStackWidthConstraint: NSLayoutConstraint?
-    private var mainStackCenterConstraint: NSLayoutConstraint?
-
-    private var currentValue = "0"
-    private var storedValue: Int?
-    private var pendingOperation: String?
-    private var shouldStartNewNumber = true
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureLayout()
-        configureAppearance()
-        updateDisplay()
+    // A computed property.
+    private var mainStack: UIStackView? {
+        displayLabel.superview as? UIStackView
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        updateLayoutForCurrentSize()
-        updateButtonCornerRadii()
+    // A computed property.
+    private var rowStacks: [UIStackView] {
+        mainStack?.arrangedSubviews.compactMap { $0 as? UIStackView } ?? []
     }
 
-    @IBAction private func digitButtonTapped(_ sender: UIButton) {
-        guard let digit = sender.currentTitle else { return }
-
-        if shouldStartNewNumber || currentValue == "0" {
-            currentValue = digit
-            shouldStartNewNumber = false
-        } else {
-            currentValue += digit
+    private func backgroundColor(for button: UIButton) -> UIColor {
+        if isUnsupportedButton(button) {
+            return unsupportedButtonColor
         }
 
-        updateDisplay()
-    }
-
-    @IBAction private func clearButtonTapped(_: UIButton) {
-        currentValue = "0"
-        storedValue = nil
-        pendingOperation = nil
-        shouldStartNewNumber = true
-        updateDisplay()
-    }
-
-    @IBAction private func signButtonTapped(_: UIButton) {
-        guard currentValue != "0" else { return }
-
-        if currentValue.hasPrefix("-") {
-            currentValue.removeFirst()
-        } else {
-            currentValue = "-" + currentValue
-        }
-        updateDisplay()
-    }
-
-    @IBAction private func percentButtonTapped(_: UIButton) {
-        // This button is intentionally unsupported.
-    }
-
-    @IBAction private func decimalButtonTapped(_: UIButton) {
-        // This button is intentionally unsupported.
-    }
-
-    @IBAction private func operationButtonTapped(_ sender: UIButton) {
-        guard let operation = sender.currentTitle else { return }
-
-        if let pendingOperation, let storedValue, !shouldStartNewNumber {
-            let result = calculate(
-                storedValue,
-                currentIntValue,
-                pendingOperation
-            )
-            setResult(result)
-        } else {
-            storedValue = currentIntValue
-        }
-
-        pendingOperation = operation
-        shouldStartNewNumber = true
-    }
-
-    @IBAction private func equalsButtonTapped(_: UIButton) {
-        guard let pendingOperation, let storedValue else { return }
-
-        let result = calculate(storedValue, currentIntValue, pendingOperation)
-        setResult(result)
-        self.pendingOperation = nil
-        self.storedValue = nil
-        shouldStartNewNumber = true
-    }
-
-    private var currentIntValue: Int {
-        Int(currentValue) ?? 0
-    }
-
-    private func calculate(
-        _ left: Int,
-        _ right: Int,
-        _ operation: String
-    ) -> Int? {
-        switch operation {
-        case "+":
-            return left + right
-        case "-":
-            return left - right
-        case "x":
-            return left * right
-        case "/":
-            // This operation is intentionally unsupported.
-            return nil
+        switch button.currentTitle {
+        case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
+            return numberButtonColor
         default:
-            return right
+            return operatorButtonColor
         }
     }
 
-    private func setResult(_ result: Int?) {
-        guard let result else {
-            currentValue = "Error"
-            storedValue = nil
-            pendingOperation = nil
-            shouldStartNewNumber = true
-            updateDisplay()
-            return
-        }
-
-        currentValue = String(result)
-        storedValue = result
-        updateDisplay()
-    }
-
-    private func updateDisplay() {
-        displayLabel.text = currentValue
-    }
-
-    private func configureLayout() {
-        guard let mainStack else { return }
-
-        mainStackCenterConstraint = mainStack.centerXAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.centerXAnchor
-        )
-        mainStackWidthConstraint = mainStack.widthAnchor
-            .constraint(equalToConstant: 0)
+    @IBAction private func clearButtonTapped(_ sender: UIButton) {
+        processButton(sender)
     }
 
     private func configureAppearance() {
@@ -189,6 +63,91 @@ class ViewController: UIViewController {
             button.alpha = isUnsupported ? 0.45 : 1
             button.clipsToBounds = true
         }
+    }
+
+    private func configureLayout() {
+        guard let mainStack else { return }
+
+        mainStackCenterConstraint = mainStack.centerXAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.centerXAnchor
+        )
+        mainStackWidthConstraint = mainStack.widthAnchor
+            .constraint(equalToConstant: 0)
+    }
+
+    @IBAction private func decimalButtonTapped(_ sender: UIButton) {
+        processButton(sender)
+    }
+
+    @IBAction private func digitButtonTapped(_ sender: UIButton) {
+        processButton(sender)
+    }
+
+    @IBAction private func equalsButtonTapped(_ sender: UIButton) {
+        processButton(sender)
+    }
+
+    private func isUnsupportedButton(_ button: UIButton) -> Bool {
+        guard let title = button.currentTitle else { return false }
+        return unsupportedButtonLabels.contains(title)
+    }
+
+    @IBAction private func operationButtonTapped(_ sender: UIButton) {
+        processButton(sender)
+    }
+
+    @IBAction private func percentButtonTapped(_ sender: UIButton) {
+        processButton(sender)
+    }
+
+    private func processButton(_ button: UIButton) {
+        guard let key = button.currentTitle else { return }
+        displayLabel.text = model.processKey(key)
+    }
+
+    private static func rgb(
+        _ red: CGFloat,
+        _ green: CGFloat,
+        _ blue: CGFloat
+    ) -> UIColor {
+        UIColor(red: red / 255, green: green / 255, blue: blue / 255, alpha: 1)
+    }
+
+    private func setDisplayHeight(_ height: CGFloat) {
+        displayLabel.constraints
+            .first { $0.firstAttribute == .height }
+            .map { $0.constant = height }
+    }
+
+    private func setMainStackHorizontalEdgeConstraints(active: Bool) {
+        view.constraints
+            .filter {
+                $0.identifier == "main-leading" || $0
+                    .identifier == "main-trailing"
+            }
+            .forEach { $0.isActive = active }
+    }
+
+    private func setRowsHeight(_ height: CGFloat) {
+        for row in rowStacks {
+            row.constraints
+                .first { $0.firstAttribute == .height }
+                .map { $0.constant = height }
+        }
+    }
+
+    @IBAction private func signButtonTapped(_ sender: UIButton) {
+        processButton(sender)
+    }
+
+    private func updateButtonCornerRadii() {
+        for button in buttons {
+            button.layer.cornerRadius = button.bounds.height / 2
+        }
+    }
+
+    private func updateDisplay() {
+        displayLabel.text = model.currentValue
     }
 
     private func updateLayoutForCurrentSize() {
@@ -218,50 +177,16 @@ class ViewController: UIViewController {
         }
     }
 
-    private func setDisplayHeight(_ height: CGFloat) {
-        displayLabel.constraints
-            .first { $0.firstAttribute == .height }
-            .map { $0.constant = height }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateLayoutForCurrentSize()
+        updateButtonCornerRadii()
     }
 
-    private func setRowsHeight(_ height: CGFloat) {
-        for row in rowStacks {
-            row.constraints
-                .first { $0.firstAttribute == .height }
-                .map { $0.constant = height }
-        }
-    }
-
-    private func setMainStackHorizontalEdgeConstraints(active: Bool) {
-        view.constraints
-            .filter {
-                $0.identifier == "main-leading" || $0
-                    .identifier == "main-trailing"
-            }
-            .forEach { $0.isActive = active }
-    }
-
-    private func updateButtonCornerRadii() {
-        for button in buttons {
-            button.layer.cornerRadius = button.bounds.height / 2
-        }
-    }
-
-    private func backgroundColor(for button: UIButton) -> UIColor {
-        if isUnsupportedButton(button) {
-            return unsupportedButtonColor
-        }
-
-        switch button.currentTitle {
-        case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
-            return numberButtonColor
-        default:
-            return operatorButtonColor
-        }
-    }
-
-    private func isUnsupportedButton(_ button: UIButton) -> Bool {
-        guard let title = button.currentTitle else { return false }
-        return unsupportedButtonLabels.contains(title)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureLayout()
+        configureAppearance()
+        updateDisplay()
     }
 }
